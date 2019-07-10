@@ -111,12 +111,12 @@ public class XmlLearning {
 		MyHandler handler=new MyHandler();
 		//5、解析,""中可以写绝对路径，但是我把文件都放在同一目录下，所以就直接用了
 		saxParser.parse(Thread.currentThread().getContextClassLoader()
-		.getResourceAsStream("web.xml")
+		.getResourceAsStream("text/web.xml")
 		,handler);
 
         /*
          *这里使用Thread.currentThread().getContextClassLoader()
-		 *.getResourceAsStream("web.xml")的
+		 *.getResourceAsStream("text/web.xml")的
          *具体原因是WEB程序，发布到Tomcat里面运行之后首先是执行
          *Tomcat org.apache.catalina.startup.Bootstrap类，这时候的类加载器是
          *ClassLoader.getSystemClassLoader()。如果在后面的WEB程序里使用
@@ -127,9 +127,6 @@ public class XmlLearning {
          *个类加载器是开发者需要考虑的问题，毕竟java是多线程的。在这里我就不赘述了，有兴趣
          *的朋友可以去查一查其他的方法（查完回来告诉我一下呗 0 0）。
          *
-         *如果不布置到Tomcat上，只是单纯在eclipse上运行，其实这里是可以写成下面
-         *这个样子的。
-         *saxParser.parse("src\\web.xml", new MyHandler());
          *
          *为什么要是用.getResourceAsStream("web.xml")呢？是因为相对路径这个概念
          *在本地eclipse里用着还行，但是到了服务器上就容易出问题。对于一般的项目，
@@ -161,8 +158,6 @@ class MyHandler extends DefaultHandler{
 		String contents = new String(ch,start,length).trim();
 		if(contents.length()>0) {
 			System.out.println("内容为："+contents);			
-		}else {
-			System.out.println("内容为："+"空");		
 		}
 	}
 	
@@ -175,3 +170,4 @@ class MyHandler extends DefaultHandler{
 		System.out.println("解析文档结束");
 	}
 }
+
