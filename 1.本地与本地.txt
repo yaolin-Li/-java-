@@ -1,0 +1,59 @@
+建立Server:
+    创端口-->设监听-->读数据-->打印
+public class Server {
+    public static void main(String[] args) throws IOException {
+        // 1、指定端口 使用ServerSocket创建服务器
+        ServerSocket server =new ServerSocket(8888);
+        // 2、阻塞式等待连接 accept
+        Socket  client =server.accept(); 
+        // 3、操作: 输入输出流操作
+        DataInputStream dis =new DataInputStream(client.getInputStream());
+        String data =dis.readUTF();
+        /*
+        *InputStream是DataInputStream的父类,DataInputStream是对输入流的再一层封装
+        *InputStream使用方法如下:
+        *   byte[] datas = new byte[1024*1024];
+        *   InputStream input = client.getInputStream();
+        *   int len = input.read(datas);
+        *input.read(datas)指的是从input中获取信息存入到datas中。 
+        *   String st = new String(datas,0,len);
+        */
+        System.out.println(data);
+
+        //4.返回数据
+        DataOutputStream dos =new DataOutputStream(client.getOutputStream());			
+		dos.writeUTF("欢迎回来");
+		dos.flush();
+
+        dos.close();
+        dis.close();
+        client.close();	
+        server.close();
+    }
+}
+建立client:
+    创端口-->输出
+public class Client {
+
+	public static void main(String[] args) throws UnknownHostException, IOException {
+
+		//1、建立连接: 使用Socket创建客户端 +服务的地址和端口
+		Socket client =new Socket("localhost",8888);
+		//2、操作: 输入输出流操作
+		DataOutputStream dos =new DataOutputStream(client.getOutputStream());
+		String data ="hello";
+		dos.writeUTF(data);
+		dos.flush();
+		//3、释放资源 
+
+        //4.接收服务器的返回消息
+        DataInputStream dis =new DataInputStream(client.getInputStream());
+		String result =dis.readUTF();		
+		System.out.println(result);
+		dis.close();
+        dos.close();
+		client.close();
+	}
+
+}    
+这里只是单个的，多线程模式见src/MultiLogin
