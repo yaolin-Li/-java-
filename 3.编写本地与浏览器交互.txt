@@ -1,0 +1,43 @@
+首先依旧是建立Server:
+    ServerSocket serverSocket = new ServerSocket(8888)-->
+    监听 Socket client = serverSocket.accept();-->
+    获取请求 InputStream input = client.getInputStream();-->
+    字节流转字符流 
+        byte[] datas = new byte[1024*1024];
+        int len = input.read(datas);
+        String content = new String(datas,0,1);
+    这个时候收到的就是浏览器发给IDE的的HTTP请求，可以是POST也可以是
+    GET。具体内容见 2.本地与服务器.txt。
+
+给服务器返回一些信息:
+    假设服务器想要返回给浏览器一句话“welcome to my website!”
+    那么服务器需要给浏览器发送如下内容：
+        HTTP/1.1 200 OK
+        Server: Apache-Coyote/1.1
+        Content-Type: text/html;charset=ISO-8859-1
+        Content-Length: 102
+        Date: Mon, 19 JUN 2019 14:25:14 GMT
+        /*
+        *之前我们从浏览器收到的内容，叫做请求信息。由于HTTP是请求/响应        *
+        *协议，因此在响应浏览器时也应该附加上响应信息。上面的五行字就是
+        *一个典型的响应报文。当我们想要使用HTTP链接本地服务器与浏览器时
+        *响应报文是必须的。
+        *
+        */
+        <html>
+            <head>
+                <title>welcome</title>
+            </head>
+            <body>
+                welcome to my website!
+            </body>
+        </html>
+        /*
+        *这一段写得是一个简单的HTML代码。作用是规定浏览器显示
+        *响应数据的格式。
+        */
+    如何返回还是老样子。
+        首先我们要有client,就是之前收数据的时候用的。然后我们需要
+        创建一个BufferedWriter writer = new Bufferedwriter(new OutputStream(client.OutputStream()));
+        再将我们上面那一大段内容放到输出流中:writer.write(内容);最后writer.flush();
+        内容可以通过StringBuilder来汇总。具体代码见src/Server/SimpleServer.java

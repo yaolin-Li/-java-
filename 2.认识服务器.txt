@@ -78,5 +78,5 @@ exp:我们有一个.xml文件
     我们要获得AClass。步骤为：1.服务器收到一个资源名，并且判断是否是/myA、/mA、/myclassA中的任意一个。2.（如果是）找到这个资源名对应的servlet-name，在这里是myclassA。3.用</servlet-mapping>中的myclassA找到拥有相同servlet-name的<servlet>。4.在这个<servlet>中找到<servlet-class>。5.返回<servlet-class>中的类名。
 
 4.上代码！
-见XmlLearning.java
+见src/Server/XmlLearning.java
 

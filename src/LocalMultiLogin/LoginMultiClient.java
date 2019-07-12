@@ -8,15 +8,6 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-/**
- * 模拟登录  多个客户端请求
- * 创建客户端
- * 1、建立连接: 使用Socket创建客户端 +服务的地址和端口
- * 2、操作: 输入输出流操作
- * 3、释放资源 
- * @author 裴新 QQ:3401997271
- *
- */
 public class LoginMultiClient {
 	public static void main(String[] args) throws UnknownHostException, IOException {		
 		System.out.println("-----Client-----");
